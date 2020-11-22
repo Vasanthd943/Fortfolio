@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Jumble Word</title>
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Goldman:wght@700&display=swap" rel="stylesheet">    
+    <style>
+        .container{
+            height: 300px;
+            background-color: #000080;
+            align-items: center; 
+        }
+        h1{
+            text-align: center;
+            font-family: 'Goldman', cursive;
+
+        }
+        .round{
+            width: 70px;
+            height:70px;
+            font-size: 30px;
+            border-radius:50%;
+            border: 1px solid white;
+        }
+        
+        .flex{
+            justify-content:center;
+            display: flex;
+            align-items: center;
+            color: white
+            
+
+        }
+        .text{
+            text-align: center;
+            color:#00BFFF;
+        }
+        .w-100{
+            width: 100%;
+            height: 100px;
+
+        }
+        .ip{
+            width: 200px;
+            height: 30px;
+            border-radius: 10px;
+
+        }
+        .btn{
+            height:40px;
+            width:40px        
+        }
+        .fle{
+            justify-content:center;
+            display: flex;
+            align-items: center;            
+        }
+
+        </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="text"><h1>Guess the word</h1>
+        </div>
+        <div class="word-box flex">
+            <div class="round flex">
+                
+            </div>
+
+        </div>
+        <div class="w-100 fle"><input type="text" class="ip" placeholder="Enter your word"></div>
+    <div class="btn-box flex">
+        <div class="btn"><button>Submit</button>
+        </div>
+    </div>
+    </div>
+    <script>
+        window.onload= function(){
+            let wordBox=document.querySelector(".word-box");
+            let inputBox=document.querySelector(".ip");
+            let submit=document.querySelector(".btn")
+            let originalword="HELLO";
+            let s="HELLO",jumbled="",seen="";
+
+        function getRandomIndex(s){
+            return Math.floor(Math.random()*10)%s.length;
+        }
+
+
+        function jumbleword(s){
+        let jumbled="", seen="";
+
+        while(s.length!=jumbled.length){
+            let i=getRandomIndex(s);
+            if(seen.indexOf(i)==-1){
+                seen+=i;
+                jumbled+=s[i];
+            }
+        }
+        return jumbled; 
+
+        }
+
+    function showword(s){
+        let circleHTML="";
+        for(let i=0;i<s.length;i++)
+        {
+            circleHTML+=`<div class="round flex">${s[i]}</div>`
+        }
+        wordBox.innerHTML=circleHTML;
+    }
+
+    let jumbledword=jumbleword(originalword);
+    showword(jumbledword);
+
+
+    submit.onclick=function(){
+        let Guess=inputBox.value;
+        if(Guess==originalword)
+        alert("Your guess is correct");
+        else 
+        alert(" your Guess is wrong" +"\n \n" +originalword);
+    }
+
+    
+ }
+
+    
+        </script>
+</body>
+</html>
