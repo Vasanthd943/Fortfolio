@@ -1,33 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Drops Game </title>
     <style>
         *{
             margin: 0px;
             padding:0px;
         }
     .drop{
-        width: 50px;
-        height: 50px;
-        background-color:royalblue  ;
+        width: 80px;
+        height: 80px;
+        background-color:orangered  ;
         transform: rotate(-45deg);
         border-radius:50%;
         border-top-right-radius: 0;
         position: absolute;
-        top: 50px;
-        left:300px;
+        border: 6px solid white;
+        z-index: 1;
+        
     }
     .container{
-        height: 600px;
-        width: 100vh;
+        height: 650px;
+        width: 600px;
         position: relative;
         box-sizing: border-box;
         background-color: greenyellow;
         border:2px solid black;
         overflow: hidden;
+        
     }
     .flex{
         display: flex;
@@ -40,6 +40,7 @@
         position: absolute;
         bottom: -30px;
         width: 100%;
+        z-index: 3;
     }
     .img{
         max-width: 100%;
@@ -49,8 +50,28 @@
     .img2{
         max-width: 100%;
         width:100%;
-        height:450px;
+        height:520px;
     
+    }
+    .text{
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        transform: rotate(45deg);
+        font-size: 16px;
+        color: white;
+    }
+    .input>input{
+        font-size:40px;
+        font-weight: bold;
+        width: 588px;;
+        padding:2px;
+        background:whitesmoke;
+        position: relative;
+        z-index: 3;
+        bottom: 16px;
+        background-color: yellowgreen;
     }
         </style>
 </head>
@@ -61,28 +82,99 @@
         <div class="water">
             <img src="images/sea-removebg-preview.png" class="img"alt="water">
         </div>
-    <div class="drop">
-</div>
-
+        <div class="input">
+            <input type="text" autofocus placeholder="Enter your answer">
+        </div>
 </div>
 </main>
         <script>
             window.onload= function move() {
             let drop=document.querySelector(".drop");
-            let top=0;
+            let inputbox=document.querySelector("input")
+            let started=false;      
+            document.addEventListener("keydown",updatedrops);
+
+            function updatedrops(e) {
+                if(!started){
+                    let audio=new Audio("vasanth.mp3");
+                    let promise=audio.play();
+                    audio.loop=true;
+                    if(promise!==undefined){
+                        promise.then(()=>audio.play()).catch(error => console.log(error))
+                }                
+            }
+            let guess=inputbox.value;
+                if(e.keyCode==13){
+                    drops.filter(drop=>{
+                        if(drop.ans==guess){
+                            drop.destroy();
+                            return false;
+                        }
+                        return true;
+                    })
+                    inputbox.value="";
+                }
+            }
+
             
+            function makeExpression() {
+            let num1=Math.floor(Math.random()*100)
+            let num2=Math.floor(Math.random()*100)
+            let operators=['+','-']
+            let index=Math.floor(Math.random()*10)%operators.length;
+            return {html:`<div class="text">
+                <span>${num1}</span>
+                <span>${operators[index]}</span>
+                <span>${num2}<span></div>`,
+                    ans:eval(num1+operators[index]+num2)
+                    
+                }
+                //console.log("correct",ans);
+            }
+        
+            function makedrop(parent) {
+                let left=Math.floor(Math.random()*1000)%500;
+               // console.log(left);
+                let div=document.createElement("div")
+                div.classList.add("drop")
+                div.style.left=`${left}px`;
+                parent.appendChild(div);
+                let obj=makeExpression()
+                div.innerHTML=obj.html;
+            
+                return{
+                    ans:obj.ans,
+                    left:left,
+                    top:-10,
+                    move(){
+                        div.style.top=`${this.top}px`;
+                        this.top++;
+                    },
+                    destroy(){
+                        this.left=null;
+                        this.div=null;
+                        div.style.display="none";
+                    }
+
+                }
+                
+            }
+            let container=document.querySelector(".container")
+            let drops=[];
+            for(let i=0;i<20;i++)
+               setTimeout(()=>drops.push(makedrop(container)),3000*i+1);
+                
             function move() {
-                for(i=0;i<5;i++){
-                   
-            }
-            drop.style.top=`${top}px`;
-            top++;
-            }
+            for (let drop of drops)
+                drop.move();
+                    }
             
-            setInterval(move,100);
-            }
-            
-        </script>
+                      
+                    setInterval(move,15);
     
+            
+        }
+            
+</script>    
 </body>
 </html>
