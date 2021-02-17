@@ -1,0 +1,48 @@
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+//import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.support.ui.Select;
+
+public class testfacebook {
+	
+	WebDriver driver;
+	private Object webdriver;
+
+		public void launchbrowser() {
+		System.setProperty("webdriver.chrome.driver","D:\\drivers\\chromedriver.exe");
+			 driver=new  ChromeDriver();
+				driver.get("https://www.facebook.com/");
+				
+				driver.manage().window().maximize();
+
+driver.findElement(By.xpath("/html/body/div[1]/div[2]/div[1]/div/div/div/div[2]/div/div[1]/form/div[3]/a")).click();
+	
+	driver.findElement(By.xpath("/html/body/div[1]/div[3]/div[1]/div/div/div/form/div/div[2]/div/table/tbody/tr[2]/td[2]/input")).sendKeys("7975233569");
+	
+driver.findElement(By.xpath("/html/body/div[1]/div[3]/div[1]/div/div/div/form/div/div[3]/div/div[1]/button")).click();
+
+WebElement radioElem = driver.findElement(By.xpath("/html/body/div[1]/div[3]/div[1]/div/form/div/div[2]/table/tbody/tr/td[1]/table/tbody/tr[1]/td/label/div"));
+boolean sel = radioElem.isDisplayed();
+
+// performing click operation if element is displayed
+if (sel == true) {
+radioElem.click();
+}
+
+	driver.findElement(By.xpath("/html/body/div[1]/div[3]/div[1]/div/form/div/div[3]/div/div[1]/a")).click();
+
+public static void main(String[] args) {
+			
+		testfacebook obj= new testfacebook();
+		
+		obj.launchbrowser();
+		
+		
+		
+	}
+
+}
+
+
