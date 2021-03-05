@@ -1,0 +1,41 @@
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+
+import org.junit.Test;
+
+public class DB_test {
+
+	@Test
+	public void DB_test1() throws ClassNotFoundException, SQLException {
+		
+		Class.forName("com.mysql.cj.jdbc.Driver");
+		
+		System.out.println("driver loaded");
+		
+	Connection conn =	DriverManager.getConnection("jdbc:mysql://localhost:2300/selenium","root","Apk@123456");
+	
+	System.out.println("connected to mysql");
+	
+	Statement smt= conn.createStatement();
+	
+	ResultSet res=  smt.executeQuery("select * from selenium_users");
+	
+	while(res.next()) {
+		
+
+		String firstname = res.getString("firstname");
+		
+		String email = res.getString("email");
+		
+		System.out.println("Database record is "+email);
+	
+		System.out.println("Database record is "+firstname);
+
+	}
+	
+	}
+
+}
